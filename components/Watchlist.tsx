@@ -1,7 +1,6 @@
 import React from "react";
 
 const Watchlist = () => {
-  // Sample watchlist data (replace with dynamic API data later)
   const assets = [
     { name: "Apple Inc.", ticker: "AAPL", price: "$197.57", change: "+0.63%", changeType: "positive" },
     { name: "Tesla, Inc.", ticker: "TSLA", price: "$238.83", change: "-1.55%", changeType: "negative" },
@@ -11,7 +10,7 @@ const Watchlist = () => {
   ];
 
   return (
-    <div className="p-6 bg-white border border-gray-300 rounded-md shadow-md">
+    <div className="p-6 bg-white border border-gray-300 rounded-md shadow-md pb-20">
       <h2 className="text-2xl font-bold mb-4">Watchlist</h2>
       <p className="text-gray-600 mb-6">Track your favorite assets</p>
       <ul className="space-y-4">
@@ -37,9 +36,11 @@ const Watchlist = () => {
           </li>
         ))}
       </ul>
-      <button className="mt-6 px-4 py-2 bg-gray-200 hover:bg-gray-300 border border-gray-400 rounded">
-        + Add to Watchlist
-      </button>
+      <div className="flex justify-center">
+            <button className="mt-6 px-10 py-1  hover:bg-gray-300 border border-gray-400 rounded">
+            + Add to Watchlist
+            </button>
+      </div>    
     </div>
   );
 };

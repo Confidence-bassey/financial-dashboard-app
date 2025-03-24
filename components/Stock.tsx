@@ -66,7 +66,7 @@ const Stock = () => {
   }, []);
 
   return (
-    <div className="p-6 bg-white border border-gray-300 rounded-md shadow-md">
+    <div className="p-6 bg-white border border-gray-300 rounded-md shadow-md m-4">
       <h1 className="text-2xl font-bold mb-2">Stocks</h1>
       <h2 className="text-gray-600 mb-6">Top-performing stocks today</h2>
 

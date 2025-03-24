@@ -47,7 +47,7 @@ const MarketNews = () => {
   }, []);
 
   return (
-    <div className="p-6 bg-white border border-gray-300 rounded-md shadow-md">
+    <div className="p-6 bg-white border border-gray-300 rounded-md shadow-md m-4">
       <h1 className="text-2xl font-bold mb-2">Market News</h1>
       <h2 className="text-gray-600 mb-6">Latest financial news and updates</h2>
 

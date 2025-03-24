@@ -1,7 +1,6 @@
 import React from "react";
 
 const MarketOverview = () => {
-  // Sample market data (replace with API data in the future)
   const marketData = [
     { name: "S&P 500", value: "4,587.64", change: "+0.63%", changeType: "positive" },
     { name: "Dow Jones", value: "37,306.02", change: "+0.86%", changeType: "positive" },
