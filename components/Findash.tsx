@@ -27,8 +27,9 @@ const gridStyle: React.CSSProperties = {
   gridTemplateColumns: "2fr 1fr", 
   gridTemplateRows: "auto auto", 
   gap: "20px", 
-  height: "100vh", 
+  height: "100%", 
   padding: "20px",
+  marginBottom: "20px",
 };
 
 const marketOverviewStyle: React.CSSProperties = {

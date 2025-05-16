@@ -12,12 +12,10 @@ import {
   Legend,
 } from "chart.js";
 
-// Register Chart.js components
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
 
 type StockInfo = {
-  symbol: string;
-  price: string; // Updated to avoid 'null'
+  price: string;
   change: string;
   percentChange: string;
 };
@@ -35,15 +33,15 @@ type ChartData = {
 };
 
 const PriceChart = () => {
-  // State to store stock information
+  const [symbol, setSymbol] = useState("AAPL");
+
+
   const [stockInfo, setStockInfo] = useState<StockInfo>({
-    symbol: "AAPL",
-    price: "0.00", // Default value
-    change: "0.00", // Default value
-    percentChange: "0.00", // Default value
+    price: "0.00",
+    change: "0.00",
+    percentChange: "0.00",
   });
 
-  // State to store chart data
   const [chartData, setChartData] = useState<ChartData>({
     labels: [],
     datasets: [],
@@ -56,14 +54,13 @@ const PriceChart = () => {
         const response = await axios.get(`https://www.alphavantage.co/query`, {
           params: {
             function: "TIME_SERIES_MONTHLY",
-            symbol: stockInfo.symbol,
+            symbol: symbol,
             apikey: API_KEY,
           },
         });
 
-        console.log(response.data); // Debugging step
+        console.log(response.data); 
 
-        // Check for errors in the response
         if (response.data["Error Message"] || response.data["Note"]) {
           console.error("API Error:", response.data["Error Message"] || response.data["Note"]);
           return;
@@ -75,7 +72,7 @@ const PriceChart = () => {
           return;
         }
 
-        const labels = Object.keys(timeSeries).slice(0, 12).reverse(); // Get last 12 months
+        const labels = Object.keys(timeSeries).slice(0, 12).reverse();
         const dataPoints = labels.map((date) => parseFloat(timeSeries[date]["4. close"]));
 
         const latestPrice = dataPoints[0];
@@ -84,18 +81,17 @@ const PriceChart = () => {
         const percentChange = (priceChange / previousPrice) * 100;
 
         setStockInfo({
-          ...stockInfo,
           price: latestPrice.toFixed(2),
           change: priceChange.toFixed(2),
           percentChange: percentChange.toFixed(2),
         });
 
         setChartData({
-          labels: labels, // X-axis labels
+          labels,
           datasets: [
             {
-              label: `${stockInfo.symbol} Stock Price`,
-              data: dataPoints, // Y-axis data points
+              label: `${symbol} Stock Price`,
+              data: dataPoints,
               borderColor: "rgba(75, 192, 192, 1)",
               backgroundColor: "rgba(75, 192, 192, 0.2)",
               fill: true,
@@ -109,10 +105,10 @@ const PriceChart = () => {
     };
 
     fetchPriceData();
-  }, [stockInfo.symbol]); // Refetch data when stock symbol changes
+  }, [symbol]);
 
-  const changeStockSymbol = (symbol: string) => {
-    setStockInfo({ ...stockInfo, symbol });
+  const changeStockSymbol = (newSymbol: string) => {
+    setSymbol(newSymbol);
   };
 
   const options = {
@@ -133,7 +129,7 @@ const PriceChart = () => {
     <div className="p-6 bg-white border border-gray-300 rounded-md shadow-md">
       {/* Stock Information */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold">{stockInfo.symbol} Stock Price</h1>
+        <h1 className="text-2xl font-bold">{symbol} Stock Price</h1>
         <p className="text-lg">
           ${stockInfo.price}{" "}
           <span

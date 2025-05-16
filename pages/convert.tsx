@@ -1,6 +1,16 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+interface CoinApiResponse {
+  name: string;
+  symbol: string;
+  quotes: {
+    USD: {
+      price: number;
+    };
+  };
+}
+
 const ConvertPage = () => {
   const [cryptoList, setCryptoList] = useState<{ name: string; symbol: string; price: number }[]>([]);
   const [fiatRates, setFiatRates] = useState<{ [key: string]: number }>({});
@@ -10,11 +20,11 @@ const ConvertPage = () => {
   const [convertedAmount, setConvertedAmount] = useState(0);
 
   useEffect(() => {
-    // Fetch list of top cryptocurrencies
+  
     const fetchCryptoPrices = async () => {
       try {
         const response = await axios.get("https://api.coinpaprika.com/v1/tickers");
-        const data = response.data.slice(0, 50).map((coin: any) => ({
+       const data = response.data.slice(0, 50).map((coin: CoinApiResponse) => ({
           name: coin.name,
           symbol: coin.symbol,
           price: coin.quotes.USD.price,

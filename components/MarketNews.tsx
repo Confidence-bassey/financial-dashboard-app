@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+interface Article {
+  title: string;
+  source: {
+    name: string;
+  };
+  publishedAt: string;
+}
+
 type NewsItem = {
   title: string;
   source: { name: string };
   publishedAt: string;
-  category: string; 
+  category: string;
 };
 
 const MarketNews = () => {
@@ -16,25 +24,23 @@ const MarketNews = () => {
     const fetchMarketNews = async () => {
       try {
         const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
-        const response = await axios.get(
-          "https://newsapi.org/v2/everything",
-          {
-            params: {
-              q: "market OR stock OR cryptocurrency OR finance", 
-              sortBy: "publishedAt", 
-              language: "en",
-              apiKey: apiKey,
-            },
-          }
-        );
+        const response = await axios.get("https://newsapi.org/v2/everything", {
+          params: {
+            q: "market OR stock OR cryptocurrency OR finance",
+            sortBy: "publishedAt",
+            language: "en",
+            apiKey: apiKey,
+          },
+        });
 
-        
-        const newsData = response.data.articles.slice(0, 5).map((article: any) => ({
-          title: article.title,
-          source: { name: article.source.name },
-          publishedAt: article.publishedAt,
-          category: "Finance", 
-        }));
+        const newsData = response.data.articles
+          .slice(0, 5)
+          .map((article: Article): NewsItem => ({
+            title: article.title,
+            source: { name: article.source.name },
+            publishedAt: article.publishedAt,
+            category: "Finance",
+          }));
 
         setNews(newsData);
         setIsLoading(false);
@@ -51,7 +57,6 @@ const MarketNews = () => {
       <h1 className="text-2xl font-bold mb-2">Market News</h1>
       <h2 className="text-gray-600 mb-6">Latest financial news and updates</h2>
 
-      {/* Loading Spinner */}
       {isLoading ? (
         <div className="text-center">Loading...</div>
       ) : (
